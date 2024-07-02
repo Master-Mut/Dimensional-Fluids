@@ -1,0 +1,6 @@
+{
+  "Parent": "item/generated",
+  "Textures": {
+    "Layer0": "dimensionalfluids:item/fluid_item"
+  }
+}

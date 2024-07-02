@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "dimensionalfluids",
+	"version": "${version}",
+	"name": "Dimensional Fluids",
+	"description": "This is a mod about dimensions and fluids.",
+	"authors": [
+		"Master Mut"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/dimensional-fluids/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"mastermut.dimensionalfluids.DimensionalFluids"
+		],
+		"client": [
+			"mastermut.dimensionalfluids.DimensionalFluidsClient"
+		],
+		"fabric-datagen": [
+			"mastermut.dimensionalfluids.DimensionalFluidsDataGenerator"
+		]
+	},
+	"mixins": [
+		"dimensional-fluids.mixins.json",
+		{
+			"config": "dimensional-fluids.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
