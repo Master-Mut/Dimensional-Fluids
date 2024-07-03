@@ -1,3 +1,4 @@
 {
-  "item.dimensionalfluids.fluid_item": "Fluid item"
+  "item.dimensionalfluids.fluid_item": "Fluid item",
+  "block.dimensionalfluids.fluid_producer": "Fluid producer"
 }

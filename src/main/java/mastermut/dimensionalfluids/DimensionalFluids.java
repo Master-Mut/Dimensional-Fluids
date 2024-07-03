@@ -1,5 +1,6 @@
 package mastermut.dimensionalfluids;
 
+import mastermut.dimensionalfluids.init.BlockInit;
 import mastermut.dimensionalfluids.init.FluidInit;
 import mastermut.dimensionalfluids.init.ItemInit;
 import net.fabricmc.api.ModInitializer;
@@ -19,6 +20,8 @@ public class DimensionalFluids implements ModInitializer {
 		LOGGER.info("Dimensional Fluids started initializing.");
 
 		ItemInit.init();
+
+		BlockInit.init();
 
 		FluidInit.init();
 	}

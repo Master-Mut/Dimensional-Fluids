@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "dimensionalfluids:block/fluid_producer_front",
+    "side": "dimensionalfluids:block/fluid_producer_side",
+    "top": "dimensionalfluids:block/fluid_producer_top"
+  }
+}
