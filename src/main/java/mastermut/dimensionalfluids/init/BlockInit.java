@@ -1,6 +1,7 @@
 package mastermut.dimensionalfluids.init;
 
 import mastermut.dimensionalfluids.DimensionalFluids;
+import mastermut.dimensionalfluids.blocks.FluidProducer;
 import mastermut.dimensionalfluids.blocks.FluidProducerEntity;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -13,7 +14,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 
 public class BlockInit {
-    public static final Block FLUID_PRODUCER = registerWithItem("fluid_producer", new Block(AbstractBlock.Settings.create()
+    public static final Block FLUID_PRODUCER = registerWithItem("fluid_producer", new FluidProducer(AbstractBlock.Settings.create()
             .strength(5f, 6f)
             .sounds(BlockSoundGroup.METAL)
             .requiresTool()));

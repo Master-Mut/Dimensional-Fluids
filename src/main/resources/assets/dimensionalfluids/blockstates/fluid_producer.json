@@ -1,5 +1,19 @@
 {
   "variants": {
-    "": { "model": "dimensionalfluids:block/fluid_producer" }
+    "facing=east": {
+      "model": "dimensionalfluids:block/fluid_producer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "dimensionalfluids:block/fluid_producer"
+    },
+    "facing=south": {
+      "model": "dimensionalfluids:block/fluid_producer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "dimensionalfluids:block/fluid_producer",
+      "y": 270
+    }
   }
 }
