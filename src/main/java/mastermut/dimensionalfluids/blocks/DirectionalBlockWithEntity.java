@@ -55,12 +55,6 @@ public abstract class DirectionalBlockWithEntity extends BlockWithEntity {
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        DimensionalFluids.LOGGER.info("directional block has: {}", state.get(FACING));
-        return ActionResult.SUCCESS;
-    }
-
-    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }

@@ -3,6 +3,7 @@ package mastermut.dimensionalfluids.init;
 import mastermut.dimensionalfluids.DimensionalFluids;
 import mastermut.dimensionalfluids.blocks.FluidProducer;
 import mastermut.dimensionalfluids.blocks.FluidProducerEntity;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -40,4 +41,16 @@ public class BlockInit {
     }
 
     public static void init(){}
+
+    static {
+
+        FluidStorage.SIDED.registerForBlockEntity((machine, direction) -> switch (direction){
+            // Only expose the input tank on the top
+            case UP -> machine.exposedDuplicationFluidTank;
+            // Only expose the output tank on the bottom
+            case DOWN -> machine.exposedOutputFluidTank;
+            // Expose all the tanks on the sides
+            default -> machine.exposedTanks;
+        }, FLUID_PRODUCER_ENTITY);
+    }
 }
