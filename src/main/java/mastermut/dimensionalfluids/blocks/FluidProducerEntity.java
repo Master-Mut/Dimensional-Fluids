@@ -3,6 +3,7 @@ package mastermut.dimensionalfluids.blocks;
 import mastermut.dimensionalfluids.init.BlockInit;
 import mastermut.dimensionalfluids.util.ImplementedInventory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
