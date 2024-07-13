@@ -1,16 +1,16 @@
 {
   "_comment1": "Items",
-  "item.dimensionalfluids.fluid_item": "Fluid item",
+  "item.dimensionalfluids.fluid_item": "Fluid Item",
 
   "_comment2": "Blocks",
-  "block.dimensionalfluids.fluid_producer": "Fluid producer",
+  "block.dimensionalfluids.fluid_producer": "Fluid Producer",
 
   "_comment3": "Fluid blocks",
-  "block.dimensionalfluids.duplication_fluid": "Duplication fluid",
+  "block.dimensionalfluids.duplication_fluid": "Duplication Fluid",
 
   "_comment4": "Fluids",
   "fluid.fluidduplicationfluid": "Duplication Fluid",
 
   "_comment5": "Buckets",
-  "item.dimensionalfluids.duplication_fluid_bucket": "Duplication fluid bucket"
+  "item.dimensionalfluids.duplication_fluid_bucket": "Duplication Fluid Bucket"
 }

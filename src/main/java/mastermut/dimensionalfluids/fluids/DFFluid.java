@@ -105,7 +105,7 @@ public abstract class DFFluid extends FlowableFluid {
      */
     @Override
     public int getTickRate(WorldView world) {
-        return 5;
+        return 10;
     }
 
     /***

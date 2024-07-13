@@ -22,7 +22,7 @@
 			"mastermut.dimensionalfluids.DimensionalFluidsClient"
 		],
 		"fabric-datagen": [
-			"mastermut.dimensionalfluids.DimensionalFluidsDataGenerator"
+			"mastermut.dimensionalfluids.datagen.DimensionalFluidsDataGenerator"
 		]
 	},
 	"mixins": [
