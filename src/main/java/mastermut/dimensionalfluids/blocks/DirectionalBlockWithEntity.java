@@ -1,20 +1,15 @@
 package mastermut.dimensionalfluids.blocks;
 
 import com.mojang.serialization.MapCodec;
-import mastermut.dimensionalfluids.DimensionalFluids;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 
 public abstract class DirectionalBlockWithEntity extends BlockWithEntity {
 

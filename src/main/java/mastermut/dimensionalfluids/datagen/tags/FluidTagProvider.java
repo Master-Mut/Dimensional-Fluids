@@ -1,6 +1,7 @@
 package mastermut.dimensionalfluids.datagen.tags;
 
 import mastermut.dimensionalfluids.init.FluidInit;
+import mastermut.dimensionalfluids.init.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.registry.RegistryWrapper;
@@ -21,7 +22,7 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
                 .add(fluid.getFluid())
                 .add(fluid.getFlowingFluid()));
 
-        getOrCreateTagBuilder(FluidTags.WATER)
+        getOrCreateTagBuilder(Tags.NON_DUPLICATABLE)
                 .add(FluidInit.DFFluids.DUPLICATION_FLUID.getFluid())
                 .add(FluidInit.DFFluids.DUPLICATION_FLUID.getFlowingFluid());
     }
