@@ -1,6 +1,7 @@
 package mastermut.dimensionalfluids.blocks;
 
 import com.mojang.serialization.MapCodec;
+import mastermut.dimensionalfluids.DimensionalFluids;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.minecraft.block.BlockState;
@@ -13,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -36,38 +38,38 @@ public class FluidProducer extends DirectionalBlockWithEntity {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!world.isClient){
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof FluidProducerEntity fluidProducerEntity){
-                for (StorageView<FluidVariant> fluidVariantStorageView : fluidProducerEntity.exposedTanks) {
 
-                    player.sendMessage(Text.literal("Fluid in block: " + fluidVariantStorageView.getResource().toString() + " amount: " + fluidVariantStorageView.getAmount()), false);
-                }
+        ItemStack stack = player.getStackInHand(Hand.MAIN_HAND);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
 
-                player.sendMessage(Text.literal("you clicked a block entity congrats"), false);
-                return ActionResult.SUCCESS;
-            }
+        if (blockEntity == null){
+            DimensionalFluids.LOGGER.warn("Clicked on machine block without block entity");
+            return ActionResult.PASS; // hopefully doesn't happen.
         }
-        return ActionResult.PASS;
-    }
 
-    @Override
-    protected ItemActionResult onUseWithItem(ItemStack item, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (!stack.isEmpty()){
             if (blockEntity instanceof FluidProducerEntity fluidProducerEntity) {
                 boolean success = false;
-                if (item.isIn(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "buckets/empty")))) {
+                if (stack.isIn(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "buckets/empty")))) {
                     player.sendMessage(Text.literal("you clicked with a empty bucket"), false);
                     success = true;
                 }
 
                 if (success) {
-                    return ItemActionResult.CONSUME;
+                    return ActionResult.CONSUME;
                 }
 
+                return ActionResult.SUCCESS;
             }
         }
-        return ItemActionResult.SUCCESS;
+
+
+        NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+
+        if (screenHandlerFactory != null){
+            player.openHandledScreen(screenHandlerFactory);
+        }
+
+        return super.onUse(state, world, pos, player, hit);
     }
 }

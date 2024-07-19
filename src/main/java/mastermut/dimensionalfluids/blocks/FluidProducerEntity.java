@@ -1,9 +1,12 @@
 package mastermut.dimensionalfluids.blocks;
 
 import mastermut.dimensionalfluids.init.BlockInit;
+import mastermut.dimensionalfluids.init.GuiType;
+import mastermut.dimensionalfluids.screens.FluidProducerScreenHandler;
+import mastermut.dimensionalfluids.screens.ScreenHandlerProvider;
 import mastermut.dimensionalfluids.util.ImplementedInventory;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
@@ -16,8 +19,9 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +31,7 @@ import java.util.List;
 
 import static net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants.BUCKET;
 
-public class FluidProducerEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class FluidProducerEntity extends BlockEntity implements ExtendedScreenHandlerFactory<GuiType.BaseScreenData>, ImplementedInventory, ScreenHandlerProvider {
 
     public static final FluidVariant DUPLICATION_FLUID = FluidVariant.of(Fluids.WATER);
 
@@ -98,14 +102,23 @@ public class FluidProducerEntity extends BlockEntity implements NamedScreenHandl
 
     @Override
     public Text getDisplayName() {
-        return Text.literal("Fluid Producer");
+        return Text.translatable(getCachedState().getBlock().getTranslationKey());
     }
 
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return null;
+        return new FluidProducerScreenHandler(syncId, playerInventory, GuiType.FLUID_PRODUCER.screenHandlerType(), this);
     }
 
 
+    @Override
+    public GuiType.BaseScreenData getScreenOpeningData(ServerPlayerEntity player) {
+        return new GuiType.BaseScreenData(pos);
+    }
+
+    @Override
+    public FluidProducerScreenHandler getScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerType<?> screenHandlerType) {
+        return new FluidProducerScreenHandler(syncId, playerInventory, screenHandlerType, this);
+    }
 }

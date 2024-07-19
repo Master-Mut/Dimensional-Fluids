@@ -16,5 +16,7 @@ public class DimensionalFluidsClient implements ClientModInitializer {
 			BlockRenderLayerMap.INSTANCE.putFluid(fluid.getFlowingFluid(), RenderLayer.getTranslucent());
 		}
 
+		ClientGuiType.FLUID_PRODUCER.toString();
+
 	}
 }

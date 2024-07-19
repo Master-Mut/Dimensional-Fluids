@@ -2,6 +2,7 @@ package mastermut.dimensionalfluids;
 
 import mastermut.dimensionalfluids.init.BlockInit;
 import mastermut.dimensionalfluids.init.FluidInit;
+import mastermut.dimensionalfluids.init.GuiType;
 import mastermut.dimensionalfluids.init.ItemInit;
 import net.fabricmc.api.ModInitializer;
 
@@ -24,6 +25,8 @@ public class DimensionalFluids implements ModInitializer {
 		BlockInit.init();
 
 		FluidInit.init();
+
+		GuiType.FLUID_PRODUCER.identifier();
 	}
 
 	public static Identifier id(String path){
