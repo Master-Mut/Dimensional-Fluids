@@ -1,6 +1,7 @@
 package mastermut.dimensionalfluids.screens;
 
 import mastermut.dimensionalfluids.DimensionalFluids;
+import mastermut.dimensionalfluids.blocks.FluidProducerEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -35,7 +36,12 @@ public class FluidProducerScreenHandler extends BaseScreenHandler {
     }
 
     @Override
+    public FluidProducerEntity getBlockEntity() {
+        return (FluidProducerEntity) super.getBlockEntity();
+    }
+
+    @Override
     public boolean canUse(PlayerEntity player) {
-        return false;
+        return getBlockEntity().canPlayerUse(player);
     }
 }

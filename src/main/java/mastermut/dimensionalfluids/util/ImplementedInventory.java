@@ -8,7 +8,7 @@ import net.minecraft.util.collection.DefaultedList;
 
 /**
  * A simple {@code Inventory} implementation with only default methods + an item list getter.
- *
+ * <p>
  * Originally by Juuz
  */
 public interface ImplementedInventory extends Inventory {
@@ -67,7 +67,7 @@ public interface ImplementedInventory extends Inventory {
     /**
      * Removes items from an inventory slot.
      * @param slot  The slot to remove from.
-     * @param count How many items to remove. If there are less items in the slot than what are requested,
+     * @param count How many items to remove. If there are fewer items in the slot than what are requested,
      *              takes all items in that slot.
      */
     @Override

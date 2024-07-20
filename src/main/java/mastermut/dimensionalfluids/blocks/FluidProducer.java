@@ -39,35 +39,38 @@ public class FluidProducer extends DirectionalBlockWithEntity {
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 
-        ItemStack stack = player.getStackInHand(Hand.MAIN_HAND);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (!world.isClient) {
+            ItemStack stack = player.getStackInHand(Hand.MAIN_HAND);
+            BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (blockEntity == null){
-            DimensionalFluids.LOGGER.warn("Clicked on machine block without block entity");
-            return ActionResult.PASS; // hopefully doesn't happen.
-        }
-
-        if (!stack.isEmpty()){
-            if (blockEntity instanceof FluidProducerEntity fluidProducerEntity) {
-                boolean success = false;
-                if (stack.isIn(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "buckets/empty")))) {
-                    player.sendMessage(Text.literal("you clicked with a empty bucket"), false);
-                    success = true;
-                }
-
-                if (success) {
-                    return ActionResult.CONSUME;
-                }
-
-                return ActionResult.SUCCESS;
+            if (blockEntity == null) {
+                DimensionalFluids.LOGGER.warn("Clicked on machine block without block entity");
+                return ActionResult.PASS; // hopefully doesn't happen.
             }
-        }
+
+            if (!stack.isEmpty()) {
+                if (blockEntity instanceof FluidProducerEntity fluidProducerEntity) {
+                    boolean success = false;
+                    if (stack.isIn(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "buckets/empty")))) {
+                        player.sendMessage(Text.literal("you clicked with a empty bucket"), false);
+                        success = true;
+                    }
+
+                    if (success) {
+                        return ActionResult.CONSUME;
+                    }
+
+                    return ActionResult.SUCCESS;
+                }
+            }
 
 
-        NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
 
-        if (screenHandlerFactory != null){
-            player.openHandledScreen(screenHandlerFactory);
+            if (screenHandlerFactory != null) {
+                DimensionalFluids.LOGGER.info("Attempting to open screen: {}", screenHandlerFactory.getDisplayName());
+                player.openHandledScreen(screenHandlerFactory);
+            }
         }
 
         return super.onUse(state, world, pos, player, hit);

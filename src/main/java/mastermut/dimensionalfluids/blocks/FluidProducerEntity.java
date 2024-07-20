@@ -1,5 +1,6 @@
 package mastermut.dimensionalfluids.blocks;
 
+import mastermut.dimensionalfluids.DimensionalFluids;
 import mastermut.dimensionalfluids.init.BlockInit;
 import mastermut.dimensionalfluids.init.GuiType;
 import mastermut.dimensionalfluids.screens.FluidProducerScreenHandler;
@@ -27,6 +28,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants.BUCKET;
@@ -108,7 +110,7 @@ public class FluidProducerEntity extends BlockEntity implements ExtendedScreenHa
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new FluidProducerScreenHandler(syncId, playerInventory, GuiType.FLUID_PRODUCER.screenHandlerType(), this);
+        return getScreenHandler(syncId, playerInventory, GuiType.FLUID_PRODUCER.screenHandlerType());
     }
 
 

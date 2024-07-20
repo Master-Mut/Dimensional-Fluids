@@ -28,16 +28,18 @@ public record ClientGuiType<T extends BlockEntity>(GuiType<T> guiType, GuiFactor
         HandledScreens.register(guiType.screenHandlerType(), guiFactory());
     }
 
-}
+    public interface GuiFactory<T extends BlockEntity> extends HandledScreens.Provider<BaseScreenHandler, HandledScreen<BaseScreenHandler>> {
+        HandledScreen<BaseScreenHandler> create(int syncId, PlayerEntity playerEntity, T blockEntity);
 
-interface GuiFactory<T extends BlockEntity> extends HandledScreens.Provider<BaseScreenHandler, HandledScreen<BaseScreenHandler>> {
-    HandledScreen<BaseScreenHandler> create(int syncId, PlayerEntity playerEntity, T blockEntity);
-
-    @Override
-    default HandledScreen<BaseScreenHandler> create(BaseScreenHandler builtScreenHandler, PlayerInventory playerInventory, Text text) {
-        PlayerEntity playerEntity = playerInventory.player;
-        //noinspection unchecked
-        T blockEntity = (T) builtScreenHandler.getBlockEntity();
-        return create(builtScreenHandler.syncId, playerEntity, blockEntity);
+        @Override
+        default HandledScreen<BaseScreenHandler> create(BaseScreenHandler builtScreenHandler, PlayerInventory playerInventory, Text text) {
+            PlayerEntity playerEntity = playerInventory.player;
+            //noinspection unchecked
+            T blockEntity = (T) builtScreenHandler.getBlockEntity();
+            return create(builtScreenHandler.syncId, playerEntity, blockEntity);
+        }
     }
+
 }
+
+

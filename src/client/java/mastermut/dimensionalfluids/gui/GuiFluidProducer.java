@@ -24,7 +24,6 @@ public class GuiFluidProducer extends HandledScreen<BaseScreenHandler> {
 
     /*
     TODO:
-    Make the gui not close instantly
     Make the gui actually look good
     Implement the slots
     */
