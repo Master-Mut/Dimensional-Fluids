@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import mastermut.dimensionalfluids.blocks.FluidProducerEntity;
 import mastermut.dimensionalfluids.init.GuiType;
 import mastermut.dimensionalfluids.screens.BaseScreenHandler;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
@@ -40,6 +41,15 @@ public class GuiFluidProducer extends HandledScreen<BaseScreenHandler> {
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
         context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawCenteredTextWithShadow(textRenderer, Text.literal("Duplication fluid: " + blockEntity.exposedDuplicationFluidTank.iterator().next().getAmount()), this.width / 2, 60, 16777215);
+        context.drawCenteredTextWithShadow(textRenderer, Text.literal("Output fluid: " + blockEntity.exposedOutputFluidTank.iterator().next().getAmount()), this.width / 2, 80, 16777215);
 
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        renderBackground(context, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
+        drawMouseoverTooltip(context, mouseX, mouseY);
     }
 }

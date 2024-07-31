@@ -23,11 +23,11 @@ public class DFFluidRenderManager {
         DFFluidSettings fluidSettings = fluid.fluidSettings();
         //Sprite[] sprite = new Sprite[]{getSprite(fluidSettings.getStillTexture()), getSprite(fluidSettings.getFlowingTexture())};
 
-        // This is the one to use. the one below is just for testing.
+        // This is the one to use. the one below is just for testing. probably
         //FluidRenderHandlerRegistry.INSTANCE.register(fluid, (extendedBlockView, blockPos, fluidState) -> sprite);
         FluidRenderHandlerRegistry.INSTANCE.register(fluid, new SimpleFluidRenderHandler(Identifier.of("minecraft:block/water_still"),
                 Identifier.of("minecraft:block/water_flow"),
-                0x4CC248));
+                0xFAFAFA));
     }
 
     private static Sprite getSprite(Identifier identifier) {

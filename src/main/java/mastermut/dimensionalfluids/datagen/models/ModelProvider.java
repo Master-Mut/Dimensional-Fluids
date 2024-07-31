@@ -1,5 +1,6 @@
 package mastermut.dimensionalfluids.datagen.models;
 
+import mastermut.dimensionalfluids.init.FluidInit;
 import mastermut.dimensionalfluids.init.ItemInit;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -21,6 +22,7 @@ public class ModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
 
         itemModelGenerator.register(ItemInit.FLUID_ITEM, Models.GENERATED);
+        itemModelGenerator.register(FluidInit.DFFluids.DUPLICATION_FLUID.getBucket(), Models.GENERATED);
 
     }
 }

@@ -1,7 +1,7 @@
 package mastermut.dimensionalfluids.blocks;
 
-import mastermut.dimensionalfluids.DimensionalFluids;
 import mastermut.dimensionalfluids.init.BlockInit;
+import mastermut.dimensionalfluids.init.FluidInit;
 import mastermut.dimensionalfluids.init.GuiType;
 import mastermut.dimensionalfluids.screens.FluidProducerScreenHandler;
 import mastermut.dimensionalfluids.screens.ScreenHandlerProvider;
@@ -12,8 +12,10 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluids;
@@ -26,16 +28,18 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants.BUCKET;
 
-public class FluidProducerEntity extends BlockEntity implements ExtendedScreenHandlerFactory<GuiType.BaseScreenData>, ImplementedInventory, ScreenHandlerProvider {
+public class FluidProducerEntity extends BlockEntity implements ExtendedScreenHandlerFactory<GuiType.BaseScreenData>, ImplementedInventory, ScreenHandlerProvider, BlockEntityTicker<FluidProducerEntity> {
 
-    public static final FluidVariant DUPLICATION_FLUID = FluidVariant.of(Fluids.WATER);
+    public static final FluidVariant DUPLICATION_FLUID = FluidVariant.of(FluidInit.DFFluids.DUPLICATION_FLUID.getFluid());
+
+    public FluidVariant fluidBeingProduced = FluidVariant.of(Fluids.WATER);
 
     private final SingleVariantStorage<FluidVariant> duplicationFluidTank = new SingleVariantStorage<>() {
         @Override
@@ -74,6 +78,8 @@ public class FluidProducerEntity extends BlockEntity implements ExtendedScreenHa
             markDirty();
         }
     };
+    private final long millibucket = BUCKET / 1000;
+    private int ticksSinceProductionUpdate = 0;
 
     public final Storage<FluidVariant> exposedDuplicationFluidTank = FilteringStorage.insertOnlyOf(duplicationFluidTank);
     public final Storage<FluidVariant> exposedOutputFluidTank = FilteringStorage.extractOnlyOf(outputFluidTank);
@@ -81,6 +87,30 @@ public class FluidProducerEntity extends BlockEntity implements ExtendedScreenHa
 
     public FluidProducerEntity(BlockPos pos, BlockState state) {
         super(BlockInit.FLUID_PRODUCER_ENTITY, pos, state);
+    }
+
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state, FluidProducerEntity blockEntity) {
+        if (world == null || world.isClient){
+            return;
+        }
+        ticksSinceProductionUpdate++;
+
+        long productionAmount = 500 * millibucket;
+        if (ticksSinceProductionUpdate >= 10){
+            if (fluidBeingProduced != null && duplicationFluidTank.amount > productionAmount){
+                try (Transaction tx = Transaction.openOuter()){
+                    long extracted = duplicationFluidTank.extract(DUPLICATION_FLUID, productionAmount, tx);
+                    long inserted = outputFluidTank.insert(fluidBeingProduced, productionAmount, tx);
+                    if (extracted == productionAmount && inserted == productionAmount){
+                        tx.commit();
+                    }
+                }
+
+            }
+            ticksSinceProductionUpdate = 0;
+        }
+
     }
 
     @Override
